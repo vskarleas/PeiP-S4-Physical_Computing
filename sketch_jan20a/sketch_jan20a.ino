@@ -186,14 +186,9 @@ void loop(void)
 {
   
   float anaValueTemp = analogRead(tempPin); // read temperature analog
-  float volts = anaValueTemp*5/1023;
   
-  float volt_temp = anaValueTemp*5/1023;
-  //float volt_offset = volt_temp - 2.57;
-  float kp = anaValueTemp - 80;
+  float kp = anaValueTemp - 80; //decalage pour la correction de la temperature
   float temperature = (kp*91)/1023;
-  //float temperature = volt_temp*91/5;
-  //float temperature = (100/4.97 * (volt_temp + 11.11))- 273.15;
   Serial.println(String(temperature)+" Temperature"); //Temperature
 
   float humidity_analog = analogRead(humiditySensor); //read humidity analog
