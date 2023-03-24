@@ -15,6 +15,7 @@ int tempPin = A1;
 int humiditySensor = A2;
 int motor = A5;
 int sol = A4;
+int motorPin = 11;
 int pwm;
 
 static const byte ASCII[][5] =
@@ -188,91 +189,154 @@ void loop(void)
   float volts = anaValueTemp*5/1023;
   
   float volt_temp = anaValueTemp*5/1023;
-  Serial.println(String(volt_temp)+" Volt");
   //float volt_offset = volt_temp - 2.57;
   float kp = anaValueTemp - 80;
-  float final_res = (kp*91)/1023;
-  //float final_res = volt_temp*91/5;
-  //float final_res = (100/4.97 * (volt_temp + 11.11))- 273.15;
-  Serial.println(String(final_res)+" Temperature");
+  float temperature = (kp*91)/1023;
+  //float temperature = volt_temp*91/5;
+  //float temperature = (100/4.97 * (volt_temp + 11.11))- 273.15;
+  Serial.println(String(temperature)+" Temperature"); //Temperature
 
   float humidity_analog = analogRead(humiditySensor); //read humidity analog
-  float humidity = (2*0.000001*pow(humidity_analog, 3))-(0.0003*pow(humidity_analog,2))+(0.1596*humidity_analog)-(0.27779*final_res)+32.636;
-  Serial.println(String(humidity)+" Humidity");
+  float humidity = (2*0.000001*pow(humidity_analog, 3))-(0.0003*pow(humidity_analog,2))+(0.1596*humidity_analog)-(0.27779*temperature)+32.636;
+  Serial.println(String(humidity)+"  Air Humidity"); //Air humidity
   
-  float anaValue = analogRead(photodiodePin); // potentiometer voltage
-  if (anaValue <= 1 && anaValue >= 0)
+  float lx = analogRead(photodiodePin); // Lx
+  if (lx <= 1 && lx >= 0)
   {
-    Serial.println(String(anaValue)+" lx - Tres sobmre");
-    LcdInitialise();
-    LcdClear();
-    LcdString("Tres sombre");
+    Serial.println(String(lx)+" lx - Tres sobmre");
   }
-  if (anaValue <= 1023 && anaValue >= 330)
+  if (lx <= 1023 && lx >= 330)
   {
-    Serial.println(String(anaValue)+" lx - Tres lumineux");
-    LcdInitialise();
-    LcdClear();
-    LcdString("Tres lumineux");
+    Serial.println(String(lx)+" Lx - Tres lumineux");
   }
-  if (anaValue <=329 && anaValue >= 9)
+  if (lx <=329 && lx >= 9)
   {
-    Serial.println(String(anaValue)+" lx - Lumineux");
-    LcdInitialise();
-    LcdClear();
-    LcdString("Lumineux");
+    Serial.println(String(lx)+" Lx - Lumineux");
   }
-  if (anaValue <= 8 && anaValue >= 4)
+  if (lx <= 8 && lx >= 4)
   {
-    Serial.println(String(anaValue)+" lx - Intermiediaire");
-    LcdInitialise();
-    LcdClear();
-    LcdString("Intermiediaire");
+    Serial.println(String(lx)+" Lx - Intermiediaire");
   }
-  if (anaValue <= 3 && anaValue >= 2)
+  if (lx <= 3 && lx >= 2)
   {
-    Serial.println(String(anaValue)+" lx - Sombre");
+    Serial.println(String(lx)+" Lx - Sombre");
   }
 
-  float sol_anal = analogRead(sol);
-  Serial.println(String(sol_anal)+"Sol Anal");
+  float humidity_sol = analogRead(sol); //Sol humidity
+  Serial.println(String(humidity_sol)+" Sol Humidity");
 
-  //Program logic
-  if(sol_anal>600)
+  //Algorythm
+  if (humidity_sol < 250)
+  {
+    pwm =255;
+    digitalWrite(11,pwm);
+    LcdInitialise();
+    LcdClear();
+    LcdString("SEC");
+    Serial.println("SEC");
+     float motor = analogRead(motorPin);
+  Serial.println(String(motor)+" Motor");
+  }
+  if (humidity_sol > 600)
+  {
+    pwm =0;
+    digitalWrite(11,pwm);
+    LcdInitialise();
+    LcdClear();
+    LcdString("TRES HUMIDE");
+    Serial.println("TRES HUMIDE");
+     float motor = analogRead(motorPin);
+  Serial.println(String(motor)+" Motor");
+  }
+  if (humidity_sol < 600 && humidity_sol > 250)
+  {
+     if (temperature > 25)
+     {
+      if (humidity > 60)
+      {
+        pwm =0;
+        digitalWrite(11,pwm);
+        LcdInitialise();
+        LcdClear();
+        LcdString("HUMIDE SOL & AIR | T>25 ºC");
+        Serial.println("HUMIDE SOL & AIR | T>25 ºC");
+         float motor = analogRead(motorPin);
+  Serial.println(String(motor)+" Motor");
+      }
+      else
+      {
+         pwm =20;
+         digitalWrite(11,pwm);
+         LcdInitialise();
+         LcdClear();
+         LcdString("HUMIDE | T>25 ºC");
+         Serial.println("HUMIDE | T>25 ºC");
+          float motor = analogRead(motorPin);
+  Serial.println(String(motor)+" Motor");
+      }
+     }
+     else 
+     {
+        pwm =0;
+        digitalWrite(11,pwm);
+        LcdInitialise();
+        LcdClear();
+        LcdString("HUMIDE | T<25 ºC");
+        Serial.println("HUMIDE | T<25 ºC");
+         float motor = analogRead(motorPin);
+  Serial.println(String(motor)+" Motor");
+     }
+  }
+  if (lx >= 330)
+  {
+        LcdInitialise();
+        LcdClear();
+        LcdString("ATTENTION: Luminosite tres elevee");
+  }
+
+
+
+  /*
+  if(humidity_sol>600)
   {
     //TRES humide
     pwm =0;
     digitalWrite(11,pwm);
+    Serial.println("TRES HUMIDE");
   }
   else
   {
-    if (sol_anal < 250)
+    if (humidity_sol < 250)
     {
       //SEC
       pwm = 255;
       digitalWrite(11, pwm);
-      delay(2000);
+      Serial.println("SEC");
+      //delay(2000);
     }
     else 
     {
       //Humide
-      if (final_res > 30 && humidity<40)
+      if (temperature > 30 && humidity<40)
       {
         pwm = 127;
         digitalWrite(11, pwm);
-        delay(600);
+        Serial.println("PEU HUMIDE + CHAUD");
+        //delay(600);
       }
       else
       {
-        if (final_res < 30 && final_res >20)
+        if (temperature < 30 && temperature >25)
         {
           pwm = 127;
-        digitalWrite(11, pwm);
-        delay(600);
+          digitalWrite(11, pwm);
+        //delay(600);
+          Serial.println("HUMIDE + UN PEU CHAUD");
         }
         digitalWrite(11, 0);
       }
     }
-  }
-  delay(200); //delay 300ms to prevent any duplicates
+  }*/
+  Serial.println("----------------");
+  delay(3000); //delay to prevent any duplicates
 }
