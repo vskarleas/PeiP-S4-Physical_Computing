@@ -293,50 +293,6 @@ void loop(void)
         LcdClear();
         LcdString("ATTENTION: Luminosite tres elevee");
   }
-
-
-
-  /*
-  if(humidity_sol>600)
-  {
-    //TRES humide
-    pwm =0;
-    digitalWrite(11,pwm);
-    Serial.println("TRES HUMIDE");
-  }
-  else
-  {
-    if (humidity_sol < 250)
-    {
-      //SEC
-      pwm = 255;
-      digitalWrite(11, pwm);
-      Serial.println("SEC");
-      //delay(2000);
-    }
-    else 
-    {
-      //Humide
-      if (temperature > 30 && humidity<40)
-      {
-        pwm = 127;
-        digitalWrite(11, pwm);
-        Serial.println("PEU HUMIDE + CHAUD");
-        //delay(600);
-      }
-      else
-      {
-        if (temperature < 30 && temperature >25)
-        {
-          pwm = 127;
-          digitalWrite(11, pwm);
-        //delay(600);
-          Serial.println("HUMIDE + UN PEU CHAUD");
-        }
-        digitalWrite(11, 0);
-      }
-    }
-  }*/
   Serial.println("----------------");
   delay(3000); //delay to prevent any duplicates
 }
