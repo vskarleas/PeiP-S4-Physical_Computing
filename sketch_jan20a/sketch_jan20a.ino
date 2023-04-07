@@ -198,23 +198,23 @@ void loop(void)
   float lx = analogRead(photodiodePin); // Lx
   if (lx <= 1 && lx >= 0)
   {
-    Serial.println(String(lx)+" lx - Tres sobmre");
+    Serial.println(String(lx)+" analog lx - Tres sobmre");
   }
   if (lx <= 1023 && lx >= 330)
   {
-    Serial.println(String(lx)+" Lx - Tres lumineux");
+    Serial.println(String(lx)+" analog Lx - Tres lumineux");
   }
   if (lx <=329 && lx >= 9)
   {
-    Serial.println(String(lx)+" Lx - Lumineux");
+    Serial.println(String(lx)+" analog Lx - Lumineux");
   }
   if (lx <= 8 && lx >= 4)
   {
-    Serial.println(String(lx)+" Lx - Intermiediaire");
+    Serial.println(String(lx)+" analog Lx - Intermiediaire");
   }
   if (lx <= 3 && lx >= 2)
   {
-    Serial.println(String(lx)+" Lx - Sombre");
+    Serial.println(String(lx)+" analog Lx - Sombre");
   }
 
   float humidity_sol = analogRead(sol); //Sol humidity
