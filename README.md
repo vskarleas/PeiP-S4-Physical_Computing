@@ -26,3 +26,9 @@ Résultats
 
 ## Documentation/Soutenance Orale
 Le document de soutenance orale détaillé est disponible à l'adresse suivante : https://docs.google.com/document/d/1vhMvfFvcmQ3diIU2fz1b-3eU04DkHFrs4Rc9lHpvpsg/edit?usp=sharing
+
+---
+
+## License Information
+
+**ROB4-S7-IPC** © 2023 by **Vasileios Filippos Skarelas**, **Noan Simon**, **Vera Legba-Mony** and **@mahalligator** is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/).
