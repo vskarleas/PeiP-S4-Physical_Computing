@@ -31,4 +31,4 @@ Le document de soutenance orale détaillé est disponible à l'adresse suivante 
 
 ## License Information
 
-**PeiP2-S4-Physical_Computing** © 2023 by **Vasileios Filippos Skarelas**, **Noan Simon**, **Vera Legba-Mony** and **@mahalligator** is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/).
+**PeiP-S4-Physical_Computing** © 2023 by **Vasileios Filippos Skarelas**, **Noan Simon**, **Vera Legba-Mony** and **@mahalligator** is licensed under the [Creative Commons Attribution-NonCommercial 4.0 International](https://creativecommons.org/licenses/by-nc/4.0/).
